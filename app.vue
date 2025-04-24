@@ -2,7 +2,7 @@
   <div id="body" class="flex justify-center items-center size-full flex-col">
     <h1 class="text-4xl">Chatbot</h1>
 
-    <div>
+    <div class="flex flex-col max-h-1/2 overflow-y-scroll">
 
       <div v-for="message in messages" class="message">
         <div v-if="message.role === 'user'" class="bg-blue-500 text-white p-2 m-2 rounded" v-html="message.content">
@@ -91,6 +91,16 @@ body {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
   height: 100vh;
+}
+
+ol {
+  list-style: decimal;
+  margin-left: 1rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
 }
 
 input {
