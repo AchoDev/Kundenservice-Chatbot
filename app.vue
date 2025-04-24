@@ -5,11 +5,10 @@
     <div>
 
       <div v-for="message in messages" class="message">
-        <div v-if="message.role === 'user'" class="bg-blue-500 text-white p-2 m-2 rounded">
-          {{ message.content }}
+        <div v-if="message.role === 'user'" class="bg-blue-500 text-white p-2 m-2 rounded" v-html="message.content">
         </div>
-        <div v-else class="bg-gray-500 text-white p-2 m-2 rounded">
-          {{ message.content }}
+        <div v-else v-html="message.content"  class="bg-gray-500 text-white p-2 m-2 rounded">
+
         </div>
       </div>
 

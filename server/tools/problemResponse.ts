@@ -24,6 +24,27 @@ export default function genericProblemResponse(problem: Problem, product: Buglan
 
             Once we have this information, we'll be able to help you troubleshoot the issue more effectively.`;
 
+        case "functionality":
+            return `It seems like you're experiencing a functionality issue with our ${product.defaultName}. 
+            <ul>
+                
+            </ul>
+
+            Once we have this information, we'll be able to help you troubleshoot the issue more effectively.`;
+        case "support":
+            return `It seems like you're looking for support with our ${product.defaultName}. 
+            <ul>
+                
+            </ul>
+
+            Once we have this information, we'll be able to help you troubleshoot the issue more effectively.`;
+        case "employee":
+            return `It seems like you're having an issue with one of our employees. 
+            <ul>
+                
+            </ul>
+
+            Once we have this information, we'll be able to help you troubleshoot the issue more effectively.`;
 
         case "other":
             return "Could you please describe your problem in more detail?";
