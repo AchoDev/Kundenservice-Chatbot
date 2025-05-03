@@ -14,6 +14,7 @@ export default function evaluateMood(customerMessage: string): Mood {
         rude: ["bad", "insult", "rude", "disrespectful"],
         patient: ["wait", "patient", "no problem", "time"],
         impatient: ["quick", "impatient", "waiting time", "immediately"],
+        happy: ["happy", "good", "great", "excited"],
     };
 
     const lowerCaseMessage = customerMessage.toLowerCase();
