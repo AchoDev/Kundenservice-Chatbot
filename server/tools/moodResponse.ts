@@ -22,6 +22,8 @@ export default function genericMoodResponse(mood: Mood) {
             return "I understand that you're feeling impatient. We appreciate your understanding as we work to resolve this issue quickly."
         case "neutral":
             return "Thank you for your message. I'm here to assist you with any questions or concerns you may have."
+        case "happy":
+            return "I'm glad to hear that you're feeling happy! Your positive energy is contagious."
     
     }
 }

@@ -8,6 +8,7 @@ type Mood =
     | "knowledgeable"
     | "rude"
     | "patient"
-    | "impatient";
+    | "impatient"
+    | "happy";
 
 export default Mood
