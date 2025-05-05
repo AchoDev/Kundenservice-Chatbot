@@ -20,7 +20,19 @@
 
     </div>
 
-    <form @submit.prevent="send()" :disabled="thinking"  class="flex gap-2">
+    <div>
+      <button 
+        v-for="prompt in availablePrompts" 
+        :key="prompt.id" 
+        class="button"            
+        @click="send(prompt.prompt, 'prompt', prompt.id)"
+      >
+        {{ prompt.prompt }}
+      </button>
+    </div>
+
+
+    <form @submit.prevent="send(input)" :disabled="thinking"  class="flex gap-2">
       <input type="text" v-model="input">
       <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Send
@@ -37,30 +49,40 @@
 const input = ref("");
 const thinking = ref(false)
 
-const messages = ref([
-  {
-    role: "user",
-    content: "Hello, how are you?"
-  },
-  {
-    role: "assistant",
-    content: "I am fine, thank you!"
-  }
-])
 
-async function send() {
-  
+
+interface Prompt {
+  id: string;
+  prompt: string;
+  answer: string;
+  children?: Prompt[];
+}
+
+const availablePrompts = ref<Prompt[]>([])
+
+interface Message {
+  role: string;
+  content: string;
+}
+
+const messages = ref<Message[]>([])
+
+async function send(text: string, type: string = "text", id: string = "0") {
   messages.value.push ({
     role: "user",
-    content: input.value
+    content: text
   })
 
   thinking.value = true
 
-  const question = input.value
+  const question = {
+    text: text,
+    type: type,
+    id: id
+  }
   input.value = ""
   
-  const response = await fetch("/api/sendMessage", {
+  const response = await fetch("/api/send-message", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -75,15 +97,47 @@ async function send() {
 
   messages.value.push({
     role: "assistant",
-    content: data.response
+    content: data.message
   })
+
+  availablePrompts.value = data.prompts
 
   thinking.value = false
 }
 
+onMounted(() => {
+  fetch("/api/get-prompts")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Prompts:", data)
+      availablePrompts.value = data
+
+      messages.value.push({
+        role: "assistant",
+        content: "Hello! How can I help you?"
+      })
+    })
+    .catch((error) => {
+      console.error("Error fetching prompts:", error)
+    })
+})
+
 </script>
 
-<style>
+<style lang="scss">
+
+.button {
+  background: rgb(46, 46, 46);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(100, 100, 100);
+  }
+}
 
 body {
   background: rgb(58, 58, 58);
