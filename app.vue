@@ -20,7 +20,7 @@
 
     </div>
 
-    <div>
+    <div v-show="!thinking">
       <button 
         v-for="prompt in availablePrompts" 
         :key="prompt.id" 
@@ -63,6 +63,8 @@ const availablePrompts = ref<Prompt[]>([])
 interface Message {
   role: string;
   content: string;
+  id: string;
+  type?: string;
 }
 
 const messages = ref<Message[]>([])
@@ -70,16 +72,27 @@ const messages = ref<Message[]>([])
 async function send(text: string, type: string = "text", id: string = "0") {
   messages.value.push ({
     role: "user",
-    content: text
+    content: text,
+    id: id
   })
 
   thinking.value = true
 
-  const question = {
-    text: text,
-    type: type,
-    id: id
-  }
+  // const question = {
+  //   text: text,
+  //   type: type,
+  //   id: id
+  // }
+
+  const questions = messages.value.map(m => ({
+    text: m.content,
+    role: m.role,
+    id: m.id,
+    type: m.type
+  }))
+
+  questions[questions.length - 1].type = type
+
   input.value = ""
   
   const response = await fetch("/api/send-message", {
@@ -89,7 +102,7 @@ async function send(text: string, type: string = "text", id: string = "0") {
     },
     body: JSON.stringify({
       conversationID: "1234567890",
-      customerMessage: question,
+      customerMessages: questions,
     })
   })
   
@@ -97,7 +110,8 @@ async function send(text: string, type: string = "text", id: string = "0") {
 
   messages.value.push({
     role: "assistant",
-    content: data.message
+    content: data.message,
+    id: data.id
   })
 
   availablePrompts.value = data.prompts
@@ -114,7 +128,8 @@ onMounted(() => {
 
       messages.value.push({
         role: "assistant",
-        content: "Hello! How can I help you?"
+        content: "Hallo! Wie kann ich Ihnen behilflich sein?",
+        id: "0"
       })
     })
     .catch((error) => {

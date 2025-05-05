@@ -1,25 +1,20 @@
-import evaluateMood from "../tools/evaluateMood";
-import evaluateProblem from "../tools/evaluateProblem";
-import genericMoodResponse from "../tools/moodResponse";
-import genericProblemResponse from "../tools/problemResponse";
-import { findProduct } from "../tools/product";
+import evaluateTestAI from "../tools/evaluateTextAI";
 import { Prompt, promptTree } from "../tools/promptTree";
 
 interface RequestBody {
     conversationID: string;
-    customerMessage: {
+    customerMessages: {
         text: string;
         type: string;
         id: string;
-    }
+        role: string;
+    }[]
 }
 
 function getPromptById(id: string, prompts: Prompt[]): Prompt | null {
     for (const prompt of prompts) {
         console.log("comparing id: " + prompt.id + " with " + id)   
         if (prompt.id === id) {
-
-
             return prompt;
         }
         if (prompt.children) {
@@ -34,7 +29,7 @@ function getPromptById(id: string, prompts: Prompt[]): Prompt | null {
 
 export default defineEventHandler(async (event) => {
     const body: RequestBody = await readBody(event);
-    const { conversationID, customerMessage } = body;
+    const { conversationID, customerMessages } = body;
 
     console.log("body:" + JSON.stringify(body))
 
@@ -55,7 +50,25 @@ export default defineEventHandler(async (event) => {
     // ${problemResponse}
     // `
 
-    const prompt = getPromptById(customerMessage.id, promptTree);
+
+    const latestMessage = customerMessages[customerMessages.length - 1]
+    let prompt = getPromptById(latestMessage.id, promptTree);
+
+    if (latestMessage.type === "text") {
+        const aiResponse = await await evaluateTestAI(customerMessages.map(m => ({
+            content: m.text,
+            role: m.role
+        })))
+
+        const idInformation = getPromptById(aiResponse.id, promptTree)
+
+        prompt = {
+            answer: aiResponse.text,
+            id: aiResponse.id,
+            prompt: "",
+            children: idInformation?.children
+        }
+    }
 
     console.log("prompt:" + JSON.stringify(prompt))
 
