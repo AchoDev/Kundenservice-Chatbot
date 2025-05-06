@@ -55,7 +55,7 @@ export default defineEventHandler(async (event) => {
     let prompt = getPromptById(latestMessage.id, promptTree);
 
     if (latestMessage.type === "text") {
-        const aiResponse = await await evaluateTestAI(customerMessages.map(m => ({
+        const aiResponse = await evaluateTestAI(customerMessages.map(m => ({
             content: m.text,
             role: m.role
         })))
@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
         const idInformation = getPromptById(aiResponse.id, promptTree)
 
         prompt = {
-            answer: aiResponse.text,
+            answer: aiResponse.generatedResponse,
             id: aiResponse.id,
             prompt: "",
             children: idInformation?.children
@@ -79,7 +79,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Wait for 2 seconds
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // await new Promise((resolve) => setTimeout(resolve, 500));
 
 
     // Return the results

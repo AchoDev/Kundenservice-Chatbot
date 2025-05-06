@@ -5,7 +5,7 @@ import { ResponseInput } from "openai/resources/responses/responses.mjs";
 
 interface AIResponse {
     id: string;
-    text: string
+    generatedResponse: string
 }
 
 async function evaluateTestAI(text: {role: string, content: string}[]): Promise<AIResponse> {
@@ -14,15 +14,18 @@ async function evaluateTestAI(text: {role: string, content: string}[]): Promise<
     })
 
     const startMessage = `
-        This is the given tree: ${promptTree}
+        This is the given tree: ${JSON.stringify(promptTree)}
 
-        Evaluate which id the current chat falls into and return a structured JSON response with the following interface.
+        Evaluate which id the current chat falls into and return ONLY a structured JSON response with the following interface:
         {
-            id: string
-            text: string
+            "id": "string",
+            "generatedResponse": "string"
         }
 
-        The text is the best response based on the id.
+        Ensure the response is valid JSON and does not include any additional text or explanation.
+        Generate a good response based on the client's mood, energy, and the problem for the "generatedResponse" field.
+
+        If the problem falls into no category, the id should be "-1" along with an aplogy and a referal to this website: https://www.cleanbug.com/faq
     `
 
     text.unshift({
@@ -30,12 +33,13 @@ async function evaluateTestAI(text: {role: string, content: string}[]): Promise<
         content: startMessage
     })
 
-    console.log(text)
-
+    
     const response = await client.responses.create({
-        model: "gpt-4.1-nano",
+        model: "gpt-4.1-mini",
         input: text as ResponseInput,
     })
+
+    console.log(response.output_text)
 
     return JSON.parse(response.output_text) as AIResponse
 }
