@@ -10,7 +10,7 @@ const promptTree: Prompt[] = [
     {
         id: "1",
         prompt: "Geht es um ein Gerät?",
-        answer: "Sehr schön aber sag was dein gerät ist",
+        answer: "Um welches Gerät handelt es sich?",
         children: [
             {
                 id: "1.1",
@@ -32,7 +32,7 @@ const promptTree: Prompt[] = [
             {
                 id: "1.2",
                 prompt: "Windowfly",
-                answer: "blablabal",
+                answer: "Welches Problem haben Sie mit ihrem Windowfly?",
                 children: [
                     {
                         id: "1.2.1",
@@ -49,7 +49,7 @@ const promptTree: Prompt[] = [
             {
                 id: "1.3",
                 prompt: "Gardenbeetle",
-                answer: "blablabal",
+                answer: "Welches Problem haben Sie mit ihrem Gardenbeetle?",
                 children: [
                     {
                         id: "1.3.1",
@@ -79,13 +79,13 @@ const promptTree: Prompt[] = [
     },
     {
         id: "2",
-        prompt: "Irgendwas mit lieferung",
-        answer: "schöne lieferung",
+        prompt: "Probleme bei der Lieferung",
+        answer: "Wenn Sie Probleme bei der Lieferung haben, kann es mehrere Ursachen haben. <br> <ol> <li> Ihr Paket ist noch nicht angekommen. Wenn das Paket noch nicht angekommen ist, kann es mehrere Tage dauern, bis es ankommt. </li> <li> Ihr Paket ist verloren gegangen. Wenn Ihr Paket verloren gegangen ist, kontaktieren Sie bitte den Versanddienstleister.</li> <li> Ihr Paket ist beschädigt. Wenn Ihr Paket beschädigt ist, kontaktieren Sie bitte den Versanddienstleister.</li> </ol>",
     },
     {
         id: "3",
         prompt: "Support ist schlecht",
-        answer: "wow tut mir so leid",
+        answer: "Es tut uns leid zu hören, dass Sie mit unserem Support unzufrieden sind. Wir arbeiten ständig daran, unseren Support zu verbessern. Momentan erreichen uns sehr viele Supportanfragen und wir geben unser bestes einen exzellenten Support zu liefern. Wenn Sie weitere Anregungen haben, können Sie uns gerne direkt kontaktieren.",
     }
 ]
 

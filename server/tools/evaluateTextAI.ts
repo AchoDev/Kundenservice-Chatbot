@@ -25,9 +25,9 @@ async function evaluateTestAI(text: {role: string, content: string}[]): Promise<
         Ensure the response is valid JSON and does not include any additional text or explanation.
         Generate a good response based on the client's mood, energy, and the problem for the "generatedResponse" field.
 
-        If the problem falls into no category, the id should be "-1" along with an aplogy and a referal to this website: https://www.cleanbug.com/faq
+        If the problem falls into no category, the id should be "-1" along with an aplogy and a referal to this website: <a href="https://cleanbug.com/faq" target="_blank">www.cleanbug.com/faq</a>. This only applies if the customer specifically ASKS for help with a problem that is not in the tree. If the customer is not asking anything, the id remains "0".
 
-        Do not invent new ways to solve the problems. Do not hallucinate or make up information.
+        Do not invent new ways to solve the problems. Do not hallucinate or make up information. Do not assume anything about the problem or it's solutions.
 
         YOU are a support bot, do not say tell the customer to contact support.
     `
@@ -39,7 +39,7 @@ async function evaluateTestAI(text: {role: string, content: string}[]): Promise<
 
     
     const response = await client.responses.create({
-        model: "gpt-4.1-mini",
+        model: "gpt-4.1",
         input: text as ResponseInput,
     })
 

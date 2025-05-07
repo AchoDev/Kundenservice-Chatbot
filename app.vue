@@ -141,6 +141,11 @@ onMounted(() => {
 
 <style lang="scss">
 
+a {
+  color: lightblue;
+  text-decoration: underline;
+}
+
 .button {
   background: rgb(46, 46, 46);
   color: white;

@@ -13,6 +13,17 @@ interface RequestBody {
 }
 
 function getPromptById(id: string, prompts: Prompt[]): Prompt | null {
+
+    if (id === "0") {
+        return {
+            id: "0",
+            prompt: "Wie kann ich Ihnen helfen?",
+            answer: "Ich bin hier, um Ihnen zu helfen!",
+            children: prompts,
+        }
+    }
+
+
     for (const prompt of prompts) {
         console.log("comparing id: " + prompt.id + " with " + id)   
         if (prompt.id === id) {
@@ -69,14 +80,19 @@ export default defineEventHandler(async (event) => {
             prompt: "",
             children: idInformation?.children
         }
+        const { data, error } = await createDBConnection()    
+            .from("failures")
+            .insert({
+                id: Math.floor(Math.random() * 1000000),
+                conversation: customerMessages
+            })
 
-        if(prompt.id === "-1") {
-            await createDBConnection()
-                .from("failures")
-                .insert({
-                    conversation: customerMessages
-                })
+        if (error) {
+            console.error("Error inserting data:", error);
         }
+
+        // if(prompt.id === "-1") {
+        // }
     }
 
     console.log("prompt:" + JSON.stringify(prompt))
