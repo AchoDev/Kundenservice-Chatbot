@@ -26,6 +26,10 @@ async function evaluateTestAI(text: {role: string, content: string}[]): Promise<
         Generate a good response based on the client's mood, energy, and the problem for the "generatedResponse" field.
 
         If the problem falls into no category, the id should be "-1" along with an aplogy and a referal to this website: https://www.cleanbug.com/faq
+
+        Do not invent new ways to solve the problems. Do not hallucinate or make up information.
+
+        YOU are a support bot, do not say tell the customer to contact support.
     `
 
     text.unshift({

@@ -1,3 +1,4 @@
+import createDBConnection from "../tools/createDBConnection";
 import evaluateTestAI from "../tools/evaluateTextAI";
 import { Prompt, promptTree } from "../tools/promptTree";
 
@@ -67,6 +68,14 @@ export default defineEventHandler(async (event) => {
             id: aiResponse.id,
             prompt: "",
             children: idInformation?.children
+        }
+
+        if(prompt.id === "-1") {
+            await createDBConnection()
+                .from("failures")
+                .insert({
+                    conversation: customerMessages
+                })
         }
     }
 
