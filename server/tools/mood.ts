@@ -12,3 +12,4 @@ type Mood =
     | "happy";
 
 export default Mood
+

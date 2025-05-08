@@ -80,19 +80,19 @@ export default defineEventHandler(async (event) => {
             prompt: "",
             children: idInformation?.children
         }
-        const { data, error } = await createDBConnection()    
-            .from("failures")
-            .insert({
-                id: Math.floor(Math.random() * 1000000),
-                conversation: customerMessages
-            })
-
-        if (error) {
-            console.error("Error inserting data:", error);
+        
+        if(prompt.id === "-1") {
+            const { data, error } = await createDBConnection()    
+                .from("failures")
+                .insert({
+                    id: Math.floor(Math.random() * 1000000),
+                    conversation: customerMessages
+                })
+    
+            if (error) {
+                console.error("Error inserting data:", error);
+            }
         }
-
-        // if(prompt.id === "-1") {
-        // }
     }
 
     console.log("prompt:" + JSON.stringify(prompt))
